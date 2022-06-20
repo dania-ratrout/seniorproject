@@ -1,7 +1,7 @@
 <?php 
 require_once('handlers/db.php');
 require_once('handlers/data.php');
-$orders=getAll('orders');
+$orders=getWhere('orders','status = 1');
 // echo "<pre>";
 // print_r($orders);die;
 ?>
@@ -84,16 +84,18 @@ $orders=getAll('orders');
                 ?>
             <div class="title">Purchase Receipt</div>
             <div class="info">
+                <?php foreach($orders as $order): ?>
                 <div class="row">
                     <div class="total">
                         <span id="heading">Date</span><br>
-                        <span id="details"><?= $orders['datetime']?></span>
+                        <span id="details"><?= $order['datetime']?></span>
                     </div>
                     <div class="total">
                         <span id="heading">Order No.</span><br>
-                        <span id="details"><?= $orders['id']?></span>
+                        <span id="details"><?= $order['id']?></span>
                     </div>
-                </div>      
+                </div>     
+                <?php endforeach; ?> 
             </div>      
             <div class="pricing">
                 <div class="row">

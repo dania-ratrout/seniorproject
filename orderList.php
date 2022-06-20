@@ -158,7 +158,6 @@ $orders=getAll('orders');
                                             echo("<button type='submit' class='tm-product-delete-link accept-icon bg-dark' name ='approve'>
                                                 <i class='fas fa-check '></i>
                                                   </button>");
-                                                 
                                             ?>
                                             </form> 
                                             </td>
