@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 20, 2022 at 01:14 AM
+-- Generation Time: Jun 20, 2022 at 05:36 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.4
 
@@ -175,6 +175,7 @@ CREATE TABLE `orders` (
   `id` int(40) NOT NULL,
   `total_price` varchar(10000) NOT NULL,
   `datetime` datetime NOT NULL DEFAULT current_timestamp(),
+  `status` tinyint(1) NOT NULL DEFAULT 0,
   `delivery_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -182,8 +183,9 @@ CREATE TABLE `orders` (
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `total_price`, `datetime`, `delivery_id`) VALUES
-(1, '10000', '2022-06-10 01:16:06', 1);
+INSERT INTO `orders` (`id`, `total_price`, `datetime`, `status`, `delivery_id`) VALUES
+(1, '10000', '2022-06-10 01:16:06', 0, 1),
+(7, '1000', '2022-06-20 08:02:29', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -195,12 +197,10 @@ CREATE TABLE `products` (
   `id` int(40) NOT NULL,
   `name` varchar(100) NOT NULL,
   `price` text NOT NULL,
-  `quantity` mediumtext NOT NULL,
   `img` varchar(255) NOT NULL,
   `description` varchar(1000) NOT NULL,
   `expire_date` date NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT 0,
-  `in_stock` varchar(255) NOT NULL,
   `owner_id` int(40) NOT NULL,
   `category_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -209,9 +209,9 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `name`, `price`, `quantity`, `img`, `description`, `expire_date`, `status`, `in_stock`, `owner_id`, `category_id`) VALUES
-(22, 'Homus salad', '20', '4 ', 'assets/img/products/22,06,051734813134255966.jpg', 'Delicious homus salad 100% natural', '2022-06-09', 1, '300', 11, 1),
-(27, 'Ben Zhaiman coffee', '3', '100 ', 'assets/img/products/22,06,191736099288367638.JPG', 'Delicious tomato sauce 100% natural Delicious tomato sauce 100% natural Delicious tomato sauce 100% natural', '2022-06-02', 0, '300', 8, 2);
+INSERT INTO `products` (`id`, `name`, `price`, `img`, `description`, `expire_date`, `status`, `owner_id`, `category_id`) VALUES
+(22, 'Homus salad', '20', 'assets/img/products/22,06,051734813134255966.jpg', 'Delicious homus salad 100% natural', '2022-06-09', 1, 11, 1),
+(31, 'Ben Zhaiman coffee', '20', 'assets/img/products/22,06,201736157607614007.jpg', 'Ben Zhaiman coffee', '2022-06-24', 1, 8, 2);
 
 -- --------------------------------------------------------
 
@@ -236,8 +236,7 @@ CREATE TABLE `product_owners` (
 
 INSERT INTO `product_owners` (`id`, `name`, `email`, `password`, `phone`, `company_name`, `company_id`, `role_id`) VALUES
 (8, 'ahmad', 'ahmad@gmail.com', '123456789', '+962796388393', 'zhiman coffee', 0, 3),
-(11, 'dania ratrout', 'dania@gmail.com', '123456789', '0568326110', 'sanyora', 123, 3),
-(13, 'test', 'test@gmail.com', '123456789', '0568326110', 'zeeta', 123, 3);
+(11, 'dania ratrout', 'dania@gmail.com', '123456789', '0568326110', 'sanyora', 123, 3);
 
 -- --------------------------------------------------------
 
@@ -470,13 +469,13 @@ ALTER TABLE `news`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(40) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(40) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(40) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(40) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `product_owners`
