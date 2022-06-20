@@ -65,51 +65,39 @@ $categorys=getWhere('categorys', 'status = 1');
  {
     header('Location: '.$page);
  }
-                                            if(isset($_POST['approve'])) 
-                                            {
-                                                $product_id=$_POST['product_id'];
-                                                require_once('handlers/connect.php');
-                                                $myQuery = mysqli_query($conn,"UPDATE products SET status=1 where id=".$product_id ) 
-                                                            or die(mysqli_error($conn) );
+      if(isset($_POST['approve'])) 
+           {
+            $product_id=$_POST['product_id'];
+            require_once('handlers/connect.php');
+             $myQuery = mysqli_query($conn,"UPDATE products SET status=1 where id=".$product_id ) 
+             or die(mysqli_error($conn) );                                    
+             GoToPage("WaitingList.php");     
+   } 
+              else if(isset($_POST['delete'])) 
+               {
+                $product_id=$_POST['product_id'];
+                 require_once('handlers/connect.php');
+              $myQuery = mysqli_query($conn,"UPDATE products SET status=0 where id=".$product_id ) 
+            or die(mysqli_error($conn) );                                    
+             GoToPage("WaitingList.php");
+             } 
+             if( isset($_POST['approveAll']) && !empty($_POST['product']) ) {
                                                 
-                                                            GoToPage("WaitingList.php");
-                                                
-                                                
-                                            } 
-                                            else if(isset($_POST['delete'])) 
-                                            {
-                                                $product_id=$_POST['product_id'];
-                                                require_once('handlers/connect.php');
-                                                $myQuery = mysqli_query($conn,"UPDATE products SET status=0 where id=".$product_id ) 
-                                                            or die(mysqli_error($conn) );
-                                                
-                                                            GoToPage("WaitingList.php");
-                                            } 
+               foreach($_POST['product'] as $prod) {
+                 $myQuery = mysqli_query($conn,"UPDATE products SET status=1 where id=".$prod ) 
+                     or die(mysqli_error($conn) );                                                                         
+                    }
+                 GoToPage("WaitingList.php");
+                    }
 
-
-
-                                            if( isset($_POST['approveAll']) && !empty($_POST['product']) ) {
-                                                
-                                                foreach($_POST['product'] as $prod) {
-                                                    $myQuery = mysqli_query($conn,"UPDATE products SET status=1 where id=".$prod ) 
-                                                            or die(mysqli_error($conn) );                                                
-                                                            
-                                                }
-                                                GoToPage("WaitingList.php");
-                                            }
-
-                                            else if( isset($_POST['deleteAll']) && !empty($_POST['product']) ) {
-                                                
-                                                foreach($_POST['product'] as $prod) {
-                                                    $myQuery = mysqli_query($conn,"UPDATE products SET status=0 where id=".$prod ) 
-                                                            or die(mysqli_error($conn) );                                                
-                                                            
-                                                }
-                                                GoToPage("WaitingList.php");
-                                            }
-
-
-                                        ?>
+               else if( isset($_POST['deleteAll']) && !empty($_POST['product']) ) {
+                 foreach($_POST['product'] as $prod) {
+                  $myQuery = mysqli_query($conn,"UPDATE products SET status=0 where id=".$prod ) 
+                   or die(mysqli_error($conn) );                                                                                      
+                }
+                  GoToPage("WaitingList.php");
+                   }
+                        ?>
     <!--PreLoader-->
     <div class="loader">
         <div class="loader-inner">
@@ -137,6 +125,7 @@ $categorys=getWhere('categorys', 'status = 1');
                 <div class="row tm-content-row">
                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 tm-block-col">
                     <form method = "POST" >
+                        <h2 class="text-center bg-light">waiting list</h2>
                         <div class="tm-bg-primary-dark tm-block tm-block-products">
                             <div class="tm-product-table-container">
                                 

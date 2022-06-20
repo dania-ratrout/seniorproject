@@ -119,9 +119,8 @@
         $description=$_POST['description'];
         $Expire_Date=$_POST['expire_date'];
         $owner_id = $_POST['owner_id'];
-        $quantity = $_POST['quantity'];
-        add("products","name, price, quantity, img, description, expire_date, owner_id ,category_id" ,
-        " '$name','$price','$quantity ','$imgNewNameDB','$description','$Expire_Date','$owner_id' ,'$category_id' "
+        add("products","name, price, img, description, expire_date, owner_id ,category_id" ,
+        " '$name','$price','$imgNewNameDB','$description','$Expire_Date','$owner_id' ,'$category_id' "
         ,"addproduct.php");
         move_uploaded_file($imgTmpName,"../assets/img/products/$imgNewName");
     }

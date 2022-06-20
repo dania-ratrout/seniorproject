@@ -46,8 +46,7 @@
                             ?>
                                         <li><a href="addNews.php">add news</a></li>
                                         <li><a href="addTeam.php">add Team</a></li>
-                                        <li><a href="WaitingList.php">Waiting list</a></li>
-                                        <li><a href="orderList.php">Order list</a></li>										
+                                        <li><a href="WaitingList.php">Waiting list</a></li>									
                                     <?php
                         }?>
                                     

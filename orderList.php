@@ -15,46 +15,88 @@ $orders=getAll('orders');
 	<!-- title -->
 	<title>OrderList</title>
 
-	<!-- favicon -->
-	<link rel="shortcut icon" type="image/png" href="assets/img/favicon.png">
-	<!-- google font -->
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
-	<!-- fontawesome -->
-	<link rel="stylesheet" href="assets/css/all.min.css">
-	<!-- bootstrap -->
-	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-	<!-- owl carousel -->
-	<link rel="stylesheet" href="assets/css/owl.carousel.css">
-	<!-- magnific popup -->
-	<link rel="stylesheet" href="assets/css/magnific-popup.css">
-	<!-- animate css -->
-	<link rel="stylesheet" href="assets/css/animate.css">
-	<!-- mean menu css -->
-	<link rel="stylesheet" href="assets/css/meanmenu.min.css">
-	<!-- main style -->
-	<link rel="stylesheet" href="assets/css/main.css">
-	<!-- responsive -->
+	  <!-- favicon -->
+      <link rel="shortcut icon" type="image/png" href="assets/img/favicon.png">
+    <!-- google font -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="assets/css/all.min.css">
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <!-- owl carousel -->
+    <link rel="stylesheet" href="assets/css/owl.carousel.css">
+    
+    <!-- magnific popup -->
+    <link rel="stylesheet" href="assets/css/magnific-popup.css">
+    <!-- animate css -->
+    <link rel="stylesheet" href="assets/css/animate.css">
+    <!-- mean menu css -->
+    <link rel="stylesheet" href="assets/css/meanmenu.min.css">
+    <!-- main style -->
+    
+    <link rel="stylesheet" href="assets/css/main.css">
     <link rel="stylesheet" href="assets/css/custom3.css">
-	<link rel="stylesheet" href="assets/css/myorder.css">
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Roboto:400,700"
-    />
+    
+    <!-- responsive -->
+    <link rel="stylesheet" href="assets/css/myorder.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700"  />
+    
     <!-- https://fonts.google.com/specimen/Roboto -->
-    <link rel="stylesheet" href="css/fontawesome.min.css" />
+    <link rel="stylesheet" href="assets/css/fontawesome.min.css" />
+    
     <!-- https://fontawesome.com/ -->
-    <link rel="stylesheet" href="jquery-ui-datepicker/jquery-ui.min.css" type="text/css" />
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    
     <!-- https://getbootstrap.com/ -->
-    <link rel="stylesheet" href="css/templatemo-style.css">
+    <link rel="stylesheet" href="assets/css/templatemo-style.css">
+    
     <!--
-        
-	Product Admin CSS Template
-	https://templatemo.com/tm-524-product-admin
-	-->
+         Product Admin CSS Template
+        https://templatemo.com/tm-524-product-admin
+    -->
+
+
 </head>
 <body>
+<?php 
+ function GoToPage($page)
+ {
+    header('Location: '.$page);
+ }
+      if(isset($_POST['approve'])) 
+           {
+            $order_id=$_POST['order_id'];
+            require_once('handlers/connect.php');
+             $myQuery = mysqli_query($conn,"UPDATE orders SET status=1 where id=".$order_id ) 
+             or die(mysqli_error($conn) );                                    
+             GoToPage("orderList.php");     
+   } 
+              else if(isset($_POST['delete'])) 
+               {
+                $order_id=$_POST['order_id'];
+                 require_once('handlers/connect.php');
+              $myQuery = mysqli_query($conn,"UPDATE orders SET status=0 where id=".$order_id ) 
+            or die(mysqli_error($conn) );                                    
+             GoToPage("orderList.php");
+             } 
+             if( isset($_POST['approveAll']) && !empty($_POST['order']) ) {
+                                                
+               foreach($_POST['order'] as $prod) {
+                 $myQuery = mysqli_query($conn,"UPDATE orders SET status=1 where id=".$prod ) 
+                     or die(mysqli_error($conn) );                                                                         
+                    }
+                 GoToPage("orderList.php");
+                    }
+
+               else if( isset($_POST['deleteAll']) && !empty($_POST['order']) ) {
+                 foreach($_POST['order'] as $prod) {
+                  $myQuery = mysqli_query($conn,"UPDATE orders SET status=0 where id=".$prod ) 
+                   or die(mysqli_error($conn) );                                                                                      
+                }
+                  GoToPage("orderList.php");
+                   }
+                        ?>
 	
 	<!--PreLoader-->
     <div class="loader">
@@ -73,49 +115,67 @@ $orders=getAll('orders');
  <div class="myorder">
     
     <div class="container">
-    <?php 
-                    if(isset($_SESSION['create'])){ ?>
-                        <div class="aletr alert-success h-10
-                         		d-flex justify-content-center align-items-center mb-5">
-                            <?= $_SESSION['create']; ?>
-                        </div>
-                    <?php 
-                        unset($_SESSION['create']);    
-                }
-                ?>
         <div class="row">
            
         </div>
-        <!-- row -->
-        <div class="tm-content-row">
-            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 tm-block-col">
-               
-            </div>
-            <div class="col-12 tm-block-col">
-                <div class="tm-bg-primary-dark tm-block tm-block-taller tm-block-scroll">
-                    <h2 class="tm-block-title">Orders List</h2>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th class="text-white"scope="col">ORDER NO.</th>
-                                <th class="text-white"scope="col">Total price</th>
-                                <th class="text-white"scope="col">TimeDate</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <?php foreach($orders as $order):?>
-                            <tr>
-                               
-                                <td class="text-white"><b><?= $order['id']?></b></td>
-                                <td class="text-white"><b><?= $order['total_price']?>$</b></td>
-                                <td class="text-white" ><?= $order['datetime']?></td>
-                            </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
+        
+        <div class="row tm-content-row">
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 tm-block-col">
+                    <form method = "POST" >
+                        <h2 class="text-center bg-light">Orders list</h2>
+                        <div class="tm-bg-primary-dark tm-block tm-block-products">
+                            <div class="tm-product-table-container">
+                                
+                                <table class="table table-hover tm-table-small tm-product-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-white" scope="col">Select</th>
+                                            <th class="text-white" scope="col">ORDER NO.</th>
+                                            <th class="text-white" scope="col">Total price</th>
+                                            <th class="text-white" scope="col">DateTime</th>
+                                            <th class="text-white" scope="col">Actions</th>     
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                           
+                                    <?php foreach($orders as $order):?>
+                                        <tr>
+                                            <th scope="row"><input type="checkbox" name="product[]" value="<?= $product['id']?>" /></th>
+                                            <td class="tm-product-name text-white"><?= $order['id']?></td>
+                                            <td class="text-white"><?= $order['total_price']?>$</td>
+                                            <td class="text-white"><?= $order['datetime']?></td>
+                                            <td>
+                                                
+                                            <form method="POST" >
+                                                <input type="hidden" value="<?= $order['id']?>" name='order_id'>
+                                            <?php 
+                                            if($order['status']==1) 
+                                            echo("<button type='submit'class='tm-product-delete-link bg-dark' name ='delete'>
+                                                    <i class='far fa-trash-alt tm-product-delete-icon'></i>								
+                                                </button>");
+                                            else 
+                                            echo("<button type='submit' class='tm-product-delete-link accept-icon bg-dark' name ='approve'>
+                                                <i class='fas fa-check '></i>
+                                                  </button>");
+                                                 
+                                            ?>
+                                            </form> 
+                                            </td>
+                                        </tr>
+                                        <?php endforeach; ?>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- table container -->
+                            <button class="btn  btn-block text-uppercase success-color " name="approveAll">
+                            Take selected orders
+                            </button>
+                        </div>
+                        </form>
+                    </div>
                 </div>
-            </div>
-        </div>
     </div>
       
 	</div>

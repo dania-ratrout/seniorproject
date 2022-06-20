@@ -93,10 +93,6 @@
                                 <input type="text" name="price" class="form-control">
                             </div>
                             <div class="form-group">
-                                <label class=" text-dark">Products Quantity</label>
-                                <input type="number" name="quantity" class="form-control min="0">
-                            </div>
-                            <div class="form-group">
                                 <label class=" text-dark">Products Expire_Date</label>
                                 <input type="date" name="expire_date" class="form-control">
                             </div>
